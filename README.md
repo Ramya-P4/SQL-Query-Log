@@ -96,6 +96,7 @@ Creates more customized constraints that adhere to a certain condition.<br/>
 Example: Making sure all inserted integer values fall below a certain threshold.
 
 Example query:<br/>
+SQL Server / Oracle / MS Access:>br/>
 CREATE TABLE employees(<br/>
     emp_id SERIAL PRIMARY KEY,<br/>
     first_name VARCHAR(50) NOT NULL,<br/>
@@ -104,7 +105,14 @@ CREATE TABLE employees(<br/>
     hire_date DATE CHECK (hire_date > birthdate),<br/>
     salary INTEGER CHECK (salary > 0)<br/>
     )
-
+MySQL:<br/>
+CREATE TABLE Persons (<br/>
+    ID int NOT NULL,<br/>
+    LastName varchar(255) NOT NULL,<br/>
+    FirstName varchar(255),<br/>
+    Age int,<br/>
+    CHECK (Age>=18)<br/>
+);<br/>
 # COALESCE
 Accepts an ulimited number of arguments. It returns the first argument that is not null. If all arguments are null, the COALESCE function will return null.
 - Useful when querying a table that contains null values and substituting it with another value.
