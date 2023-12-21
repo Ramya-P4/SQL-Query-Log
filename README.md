@@ -25,43 +25,43 @@ ADD COLUMN new_col TYPE
 
 
 Example Query:<br/>
-ALTER TABLE information<br/>
-RENAME TO new_info
+ALTER TABLE table_name<br/>
+RENAME TO new_table_name
 
-ALTER TABLE new_info<br/>
-RENAME COLUMN person TO people
+ALTER TABLE table_name<br/>
+RENAME COLUMN old_name TO new_name
 
-ALTER TABLE new_info<br/>
-ALTER COLUMN people DROP NOT NULL
+ALTER TABLE table_name<br/>
+ALTER COLUMN column DROP NOT NULL
 
 # BETWEEN
-Used to match a value against a range of values.
+selects values within a given range
 
 SELECT COUNT column<br/>
 FROM table<br/>
 WHERE column BETWEEN 8 AND 9
 
-Can input NOT BETWEEN to return values not inbetween the designated values.
+NOT BETWEEN operator in SQL can be used to retrieve values that are outside of a specified range.
 
 # CASE
-Executes an SQL code when certain conditions are met, (similar to an IF/ELSE statement)
+used to create different outputs based on specified conditions.Conditional expression(similar to an IF/ELSE statement)
 
-General CASE Example query:<br/>
-SELECT customer_id,<br/>
+Example query:<br/>
+SELECT student_id<br/>
 CASE<br/>
-    WHEN (customer_id <= 100) THEN 'Premium'
-    WHEN (customer_id BETWEEN 100 AND 200) THEN 'Plus'<br/>
-    ELSE 'Normal'<br/>
-END AS customer_class<br/>
-FROM customer
+    WHEN (student_id <= 100) THEN 'Top 100'
+    WHEN (customer_id BETWEEN 100 AND 200) THEN 'Normal'<br/>
+    ELSE 'Lateral Entry'<br/>
+END AS student_class<br/>
+FROM students
 
 Another example:<br/>
 SELECT<br/>
-SUM(CASE rental_rate<br/>
-    WHEN 0.99 THEN 1<br/>
+SUM(CASE <br/>
+    WHEN price > 1000 THEN 1<br/>
     ELSE 0<br/>
-END) AS number_of_bargains<br/>
-FROM film
+END) AS expensive <br/>
+FROM products
 
 - This would return a summed number of everything given the value 1
 
