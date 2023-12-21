@@ -1,5 +1,5 @@
 # SQL-Query-Log
-Here's a log of my SQL skillset!
+Listing my SQL skillset!
 
 # Aggregate Functions
 AVG() - returns an average value<br/>
