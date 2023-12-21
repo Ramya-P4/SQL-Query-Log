@@ -1,27 +1,28 @@
 # SQL-Query-Log
 Listing my SQL skillset!
 
+# SQL Commonly used Data Types
+INT -  is used to store whole numbers
+VARCHAR, NVARCHAR - used to store variable length text values
+DATETIME - used to store the date and time
+DECIMAL, FLOAT - DECIMAL and FLOAT datatypes are used to work with decimal values such as 10.3
+BIT - to store whether something 'True' or 'False' 
+
 # Aggregate Functions
-AVG() - returns an average value<br/>
-ROUND() to specify precision after a decimal<br/>
-COUNT() - returns number of values<br/>
+AVG() - returns the average of a set of values<br/>
+COUNT() - returns the number of rows in a database table<br/>
 MAX() - returns maximum value<br/>
 MIN() - returns minimum value<br/>
-SUM() - returns the sum of all values
+SUM() - returns the total sum of a numeric column
 
 # ALTER Table
-Allows for changes to an existing table structure
+used to add, delete, or modify columns in an existing table
+also used to add and drop various constraints on an existing table
 
 **Adding columns**<br/>
 ALTER TABLE table_name<br/>
 ADD COLUMN new_col TYPE
 
-**Alter constraints**<br/>
-ALTER TABLE table_name<br/>
-ALTER COLUMN col_name<br/>
-SET DEFAULT value
-
-(Can also ADD CONSTRAINT constraint_name in place of SET DEFAULT value)
 
 Example Query:<br/>
 ALTER TABLE information<br/>
