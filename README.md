@@ -104,7 +104,8 @@ CREATE TABLE employees(<br/>
     birthdate DATE CHECK (birthdate > '1900-01-01'),<br/>
     hire_date DATE CHECK (hire_date > birthdate),<br/>
     salary INTEGER CHECK (salary > 0)<br/>
-    )
+    )<br/>
+    
 MySQL:<br/>
 CREATE TABLE Persons (<br/>
     ID int NOT NULL,<br/>
@@ -114,29 +115,25 @@ CREATE TABLE Persons (<br/>
     CHECK (Age>=18)<br/>
 );<br/>
 # COALESCE
-Accepts an ulimited number of arguments. It returns the first argument that is not null. If all arguments are null, the COALESCE function will return null.
+- function returns the first non-null value in a list.
 - Useful when querying a table that contains null values and substituting it with another value.
 
 Example query:<br/>
-SELECT item,(price - COALESCE(discount,0))<br/>
-AS final FROM table
-
-Example query:<br/>
-SELECT COALESCE(country, 'Both countries') AS country,<br/>
-COALESCE(medal, 'All medals') AS medal,<br/>
-COUNT(* ) AS awards<br/>
-FROM summer_medals<br/>
-WHERE year = 2008 AND COUNTRY IN ('CHN, 'RUS')<br/>
-GROUP BY ROLLUP(country, medal)<br/>
-ORDER BY country ASC, medal ASC);
+SELECT<br/>
+   country_id,<br/>
+   name,<br/> 
+   national_day,<br/>
+   COALESCE(national_day, 'Unknown') AS national_day_coalesced<br/>
+FROM countries<br/>
+ORDER BY country_id<br/>
 
 # COUNT/COUNT DISTINCT
-The COUNT function returns the number of input rows that match a specific condtion of a query.<br/>
+COUNT function returns the number of rows that matches a specified criterion.<br/>
 COUNT DISTINCT will return only the distinct number of values from a column.<br/>
 
-SELECT COUNT (name) FROM table
+SELECT COUNT(column_name) FROM table
 
-SELECT COUNT(DISTINCT name)<br/>
+SELECT COUNT(DISTINCT column_name)<br/>
 FROM table
 
 # CREATE TABLE
@@ -145,6 +142,8 @@ General syntax:
 CREATE TABLE players(<br/>
     player_id SERIAL PRIMARY KEY,<br/>
     age INTEGER NOT NULL,<br/>
+    height DECIMAL(1,2),<br/>
+    weight DECIMAL(3,2)<br/>
 )
 
 Another example:<br/>
@@ -157,7 +156,9 @@ CREATE TABLE account(<br/>
   last_login TIMESTAMP<br/>
   )
 
-**SERIAL** - typical for the primary key type as it logs unique integer entries automatically upon insertion
+**SERIAL** - typical for the primary key to create an auto-incrementing numeric column in database systems like PostgreSQ.
+**AUTO_INCREMENT** - typical for the primary key to create an auto-incrementing numeric column in database systems like  MySQL.
+**INDENTITY** - typical for the primary key to create an auto-incrementing numeric column in database systems like  MS SQL.
 
 # DELETE
 Removes rows from a table
