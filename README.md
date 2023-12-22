@@ -558,7 +558,8 @@ FROM students<br/>
 
 The DENSE_RANK() function is very similar to the RANK() function with one key difference - if there are ties in the data and two rows are assigned the same ranking value, the DENSE_RANK() will not skip any numbers and will assign the consecutive value to the next row.<br/> 
 
-**LAG and LEAD**
+**LAG and LEAD**<br/>
+
 Example query:<br/>
 SELECT id,<br/>
 CASE WHEN id%2=1 THEN COALESCE(LEAD(STUDENT) OVER (ORDER BY ID),Student)<br/>
