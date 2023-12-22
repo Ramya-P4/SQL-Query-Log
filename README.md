@@ -240,8 +240,8 @@ WHERE condition;
 
 Note: SERIAL columns do not need to be provided a value
 
-# JOINS (INNER/OUTER/LEFT/RIGHT) | AS Statement | UNION
-A JOIN clause is used to combine rows from two or more tables, based on a related column between them.
+# JOINS (INNER/OUTER/LEFT/RIGHT) | AS Statement | UNION <br/>
+A JOIN clause is used to combine rows from two or more tables, based on a related column between them.<br/>
 
 **AS** creates an "alias" for a column or result<br/>
 Example syntax:<br/>
@@ -262,21 +262,22 @@ ON customer.customer_id = payment.customer_id<br/>
 WHERE customer.customer_id IS null<br/>
 OR payment.payment_id IS null
 
-**LEFT OUTER JOIN**returns all records from the left table , and the matching records from the right table. The result is 0 records from the right side, if there is no match.<br/>
-(Order does matter!)
+**LEFT OUTER JOIN** <br/>
+returns all records from the left table , and the matching records from the right table. The result is 0 records from the right side, if there is no match.<br/>
+(Order does matter!) <br/>
 
 **RIGHT OUTER JOIN** The same as LEFT OUTER JOIN but reversed
 
 **UNION and UNION ALL** The UNION operator is used to combine the result-set of two or more SELECT statements.To allow duplicate values use UNION ALL<br/>
-Essentially concatenates two results together.
+Essentially concatenates two results together.<br/>
 
 Example syntax:<br/>
 SELECT column_name(s) FROM table1<br/>
 UNION<br/>
-SELECT column_name(s) FROM table2
+SELECT column_name(s) FROM table2<br/>
 
 # LIKE/ILIKE
-Performs pattern matching against string data with the use of **wildcard** characters
+Performs pattern matching against string data with the use of **wildcard** characters<br/>
 
 % - matches any sequence of characters<br/>
 _ - matches any single character
@@ -301,27 +302,27 @@ ORDER BY column DESC<br/>
 
 
 # Logical Operators
-Combine multiple comparison operators
+Combine multiple comparison operators<br/>
 
 AND<br/>
 OR<br/>
 NOT<br/>
 
 # ORDER BY
-Sorts rows based on a column value, in ascending or descending order.
+Sorts rows based on a column value, in ascending or descending order.<br/>
 
 SELECT column_1, column_2<br/>
 FROM table<br/>
 ORDER BY column_1 ASC/DESC
 
 # REPLACE<br/>
-Replace characters in a string.
+Replace characters in a string.<br/>
 
 SELECT REPLACE(description, 'A Astounding', 'An Astounding') AS description<br/>
-FROM film
+FROM film<br/>
 
 # REVERSE<br/>
-Reverses the order of a string.
+Reverses the order of a string.<br/>
 
 SELECT title, REVERSE(title)<br/> 
 FROM film AS f
@@ -330,7 +331,7 @@ FROM film AS f
 
 A query in which a table is joined to itself.<br/>
 Useful for comparing values in a column of rows within the same table.<br/>
-It is necessary to use an alias for the table.
+It is necessary to use an alias for the table.<br/>
 
 Example syntax:<br/>
 SELECT tableA.col, tableB.col<br/>
@@ -343,64 +344,64 @@ Edits, combines and alters text data columns
 
 Example syntax:<br/>
 SELECT **LENGTH**(first_name) FROM customer<br/>
-Example return: 5
+Example return: 5<br/>
 
 SELECT title, **CHAR_LENGTH**(title)<br/>
-FROM film;
+FROM film;<br/>
 
 SELECT first_name || last_name FROM customer<br/>
-Example return: JackJohnson
+Example return: JackJohnson<br/>
 
 SELECT first_name || ' ' || last_name<br/>
-Example return: Jack Johnson
+Example return: Jack Johnson<br/>
 
 SELECT LOWER(LEFT(first_name,1)) || LOWER(last_name) || '@gmail.com'<br/>
 FROM customer<br/>
-Example return: jjohnson@gmail.com
+Example return: jjohnson@gmail.com<br/>
 
 SELECT CONCAT(first_name, ' ', last_name) AS full_name<br/>
-FROM customer;
-
+FROM customer;<br/>
+<br/>
 **POSITION**<br/>
 SELECT email, POSITION('@' IN email)<br/>
-FROM customer;
+FROM customer;<br/>
 
 **STRPOS** Analogous to POSITION
 SELECT email, STRPOS(email, '@')<br/>
-FROM customer;
+FROM customer;<br/>
 
 **LEFT**<br/>
-SELECT LEFT(description, '50') FROM film;
+SELECT LEFT(description, '50') FROM film;<br/>
 
 **RIGHT**<br/>
-SELECT RIGHT(description, '50') FROM film;
+SELECT RIGHT(description, '50') FROM film;<br/>
 
 **SUBSTRING**<br/>
-Extract a substring from data.
+Extract a substring from data.<br/>
 
 SELECT SUBSTRING(description, 10, 50) FROM film AS f;<br/>
-Starting at the 10th character, the next 50 characters will be returned.
+Starting at the 10th character, the next 50 characters will be returned.<br/>
 
 SELECT SUBSTRING(email FROM 0 FOR POSITION('@' IN email))<br/>
 FROM customer;<br/>
-Example return: MARY.SMITH (returns everything before '@' in the email)
+Example return: MARY.SMITH (returns everything before '@' in the email)<br/>
 
 Example Query: Extracting only the street name from an address.<br/>
 SELECT SUBSTRING(address FROM POSITION(' ' IN address)+1 FOR LENGTH(address))<br/>
-FROM address;
+FROM address;<br/>
 
 **TRIM**<br/>
 The TRIM() function removes the space character OR other specified characters from the start or end of a string..<br/>
-TRIM([characters] FROM string)
+TRIM([characters] FROM string)<br/>
 
 SELECT TRIM(' padded ');<br/>
-Removes all whitespace from the beginning and end of a string.
+Removes all whitespace from the beginning and end of a string.<br/>
 
 **LTRIM or RTRIM**<br/>
 Removes only the spaces at the beginning or end of a string, not both.<br/>
-SELECT LTRIM(' padded ');
+SELECT LTRIM(' padded ');<br/>
 
-SELECT RTRIM(' padded ');
+SELECT RTRIM(' padded ');<br/>
 
 Example:<br/>
 SELECT<br/>
@@ -413,38 +414,38 @@ FROM customer;<br/>
 **LPAD**<br/>
 SELECT LPAD('padded', 10, '#');<br/>
 Returns: ####padded<br/>
-Note: Returns a character length of 10 and fills blanks space with the # symbol.
+Note: Returns a character length of 10 and fills blanks space with the # symbol.<br/>
 
 
 # SubQuery
 
-Performs a query on the results of another query
+Performs a query on the results of another query<br/>
 
 SELECT title,rental_rate<br/>
 FROM film<br/>
 WHERE rental_rate ><br/>
-(SELECT AVG(rental_rate) FROM film)
+(SELECT AVG(rental_rate) FROM film)<br/>
 
 SELECT film_id,title<br/>
 FROM film<br/>
 (SELECT inventory.film_id<br/>
 FROM rental<br/>
 INNER JOIN inventory ON inventory.inventory_id = rental.inventory_id<br/>
-WHERE return_date BETWEEN '2005-05-29' AND '2005-05-30')
+WHERE return_date BETWEEN '2005-05-29' AND '2005-05-30')<br/>
 
 SELECT first_name,last_name<br/>
 FROM customer AS c<br/>
 WHERE EXISTS<br/>
 (SELECT * FROM payment AS p<br/>
 WHERE p.customer_id = c.customer_id<br/>
-AND amount > 11)
+AND amount > 11)<br/>
 
-# TIMESTAMPS and EXTRACT
+# TIMESTAMPS and EXTRACT<br/>
 
 TIME - Contains only time<br/>
 DATE - Contains only date<br/>
 TIMESTAMP - Contains date and time<br/>
-TIMESTAMPTZ - Contains date, time, and timezone
+TIMESTAMPTZ - Contains date, time, and timezone<br/>
 
 TIMEZONE<br/>
 NOW<br/>
@@ -454,55 +455,55 @@ CURRENT_DATE<br/>
 
 **EXTRACT()** - Obtain a sub-component of a date value (year, month, day, week, or quarter)<br/>
 Example syntax:<br/>
-EXTRACT(YEAR FROM date_col)
+EXTRACT(YEAR FROM date_col)<br/>
 
 SELECT EXTRACT(MONTH FROM payment_date)<br/>
 AS pay_month<br/>
-FROM payment
+FROM payment<br/>
 
 **AGE()** - Calculates and returns the current age given to a timestamp<br/>
 AGE(date_col)<br/>
-Example return: 13 years 1 mon 5 days 01:34:13.003423
+Example return: 13 years 1 mon 5 days 01:34:13.003423<br/>
 
 **TO_CHAR()** - Converts data types to text<br/>
 Usage:<br/>
-T0_CHAR(date_col,'mm-dd-yyyy')
+T0_CHAR(date_col,'mm-dd-yyyy')<br/>
 
 SELECT TO_CHAR(payment_date,'MONTH-YYYY')<br/>
-FROM payment
+FROM payment<br/>
 
 # UPDATE
-Changes values of columns in a table
+Changes values of columns in a table<br/>
 
 General syntax:<br/>
 UPDATE table<br/>
 SET column1 = value1,<br/>
     column2 = value2<br/>
 WHERE<br/>
-    condition;
+    condition;<br/>
 
 Example:<br/>
 UPDATE account<br/>
 SET last_login = CURRENT_TIMESTAMP<br/>
-    WHERE last_login IS NULL;
+    WHERE last_login IS NULL;<br/>
     
 **UPDATE join**<br/>
 UPDATE TableA<br/>
 SET original_col = TableB.new_col<br/>
 FROM tableB<br/>
-WHERE tableA.id = TableB.id
+WHERE tableA.id = TableB.id<br/>
 
 To simply return affected rows, use the RETURNING function<br/>
 Example:<br/>
 UPDATE account<br/>
 SET last_login = created_on<br/>
-RETURNING account_id,last_login
+RETURNING account_id,last_login<br/>
 
 # User Defined Data Types
 
 **ENUM**<br/>
 An ENUM is a string object whose value is decided from a set of permitted literals(Values) that are explicitly defined at the time of column creation.
-Examples include the directions on a compass (i.e., north, south, east and west).
+Examples include the directions on a compass (i.e., north, south, east and west).<br/>
 
 CREATE TABLE table_name (<br/>
   col...<br/>
@@ -513,10 +514,10 @@ CREATE TABLE table_name (<br/>
 # STORED PROCEDURES
 A stored procedure is a prepared SQL code that you can save, so the code can be reused over and over again.You can also pass parameters in stored procedurs<br/>
 Example query:<br/>
-CREATE PROCEDURE SelectAllCustomers @City nvarchar(30)
-AS
-SELECT * FROM Customers WHERE City = @City
-GO;
+CREATE PROCEDURE SelectAllCustomers @City nvarchar(30)<br/>
+AS<br/>
+SELECT * FROM Customers WHERE City = @City<br/>
+GO;<br/>
 
 # VIEW
 In SQL, a view is a virtual table based on the result-set of an SQL statement.<br/>
@@ -525,10 +526,10 @@ Example query:<br/>
 CREATE VIEW customer_info AS<br/>
 SELECT first_name,last_name,address FROM customer<br/>
 INNER JOIN address<br/>
-ON customer.address_id = address.address_id
+ON customer.address_id = address.address_id<br/>
 
 When you want to use this VIEW, you would simply input:<br/>
-SELECT * FROM customer_info
+SELECT * FROM customer_info<br/>
 
 # Window Functions
 
@@ -551,16 +552,16 @@ GROUP BY sender_email;<br/>
 
 The RANK() function assigns ranking values to the rows according to the specified ordering.<br/>
 Example query:<br/>
-SELECT student,percentage,
-RANK() OVER (ORDER BY percentage DESC)
-FROM students
+SELECT student,percentage,<br/>
+RANK() OVER (ORDER BY percentage DESC)<br/>
+FROM students<br/>
 
-The DENSE_RANK() function is very similar to the RANK() function with one key difference - if there are ties in the data and two rows are assigned the same ranking value, the DENSE_RANK() will not skip any numbers and will assign the consecutive value to the next row. 
+The DENSE_RANK() function is very similar to the RANK() function with one key difference - if there are ties in the data and two rows are assigned the same ranking value, the DENSE_RANK() will not skip any numbers and will assign the consecutive value to the next row.<br/> 
 
 **LAG and LEAD**
 Example query:<br/>
-SELECT id,
-CASE WHEN id%2=1 THEN COALESCE(LEAD(STUDENT) OVER (ORDER BY ID),Student)
-ELSE LAG(STUDENT) OVER (ORDER BY ID) END student
-FROM seat;
+SELECT id,<br/>
+CASE WHEN id%2=1 THEN COALESCE(LEAD(STUDENT) OVER (ORDER BY ID),Student)<br/>
+ELSE LAG(STUDENT) OVER (ORDER BY ID) END student<br/>
+FROM seat;<br/>
 
