@@ -63,12 +63,12 @@ SUM(CASE <br/>
 END) AS expensive <br/>
 FROM products
 
-- This would return a summed number of everything given the value 1
+This would return a summed number of everything given the value 1
 
 # CAST
 Converts one data type to another<br/>
-- Must be reasonable conversion
-- Ex: '5' to an integer will work, 'five' to an integer will not
+Must be reasonable conversion
+Ex: '5' to an integer will work, 'five' to an integer will not
 
 Syntax:<br/>
 SELECT CAST('5' AS INTEGER)
