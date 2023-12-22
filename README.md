@@ -47,6 +47,7 @@ NOT BETWEEN operator in SQL can be used to retrieve values that are outside of a
 used to create different outputs based on specified conditions.Conditional expression(similar to an IF/ELSE statement)
 
 Example query:<br/>
+
 SELECT student_id<br/>
 CASE<br/>
     WHEN (student_id <= 100) THEN 'Top 100'
@@ -56,6 +57,7 @@ END AS student_class<br/>
 FROM students
 
 Another example:<br/>
+
 SELECT<br/>
 SUM(CASE <br/>
     WHEN price > 1000 THEN 1<br/>
@@ -119,6 +121,7 @@ CREATE TABLE Persons (<br/>
 - Useful when querying a table that contains null values and substituting it with another value.
 
 Example query:<br/>
+
 SELECT<br/>
    country_id,<br/>
    name,<br/> 
@@ -147,6 +150,7 @@ CREATE TABLE players(<br/>
 )
 
 Another example:<br/>
+
 CREATE TABLE account(<br/>
   user_id SERIAL PRIMARY KEY,<br/>
   username VARCHAR(50) UNIQUE NOT NULL,<br/>
@@ -255,7 +259,9 @@ INNER JOIN TableB<br/>
 ON TableA.col_match = TableB.col_match
 
 **FULL OUTER JOIN** all records when there is a match in left or right  table records.<br/>
+
 Example syntax:<br/>
+
 SELECT * FROM customer<br/>
 FULL OUTER JOIN payment<br/>
 ON customer.customer_id = payment.customer_id<br/>
@@ -272,6 +278,7 @@ returns all records from the left table , and the matching records from the righ
 Essentially concatenates two results together.<br/>
 
 Example syntax:<br/>
+
 SELECT column_name(s) FROM table1<br/>
 UNION<br/>
 SELECT column_name(s) FROM table2<br/>
@@ -316,12 +323,14 @@ FROM table<br/>
 ORDER BY column_1 ASC/DESC
 
 # REPLACE<br/>
+
 Replace characters in a string.<br/>
 
 SELECT REPLACE(description, 'A Astounding', 'An Astounding') AS description<br/>
 FROM film<br/>
 
 # REVERSE<br/>
+
 Reverses the order of a string.<br/>
 
 SELECT title, REVERSE(title)<br/> 
@@ -340,6 +349,7 @@ JOIN table AS tableB ON<br/>
 tableA.some_col = tableB.other_col
 
 # String Functions and Operators<br/>
+
 Edits, combines and alters text data columns
 
 Example syntax:<br/>
@@ -391,6 +401,7 @@ SELECT SUBSTRING(address FROM POSITION(' ' IN address)+1 FOR LENGTH(address))<br
 FROM address;<br/>
 
 **TRIM**<br/>
+
 The TRIM() function removes the space character OR other specified characters from the start or end of a string..<br/>
 TRIM([characters] FROM string)<br/>
 
@@ -398,6 +409,7 @@ SELECT TRIM(' padded ');<br/>
 Removes all whitespace from the beginning and end of a string.<br/>
 
 **LTRIM or RTRIM**<br/>
+
 Removes only the spaces at the beginning or end of a string, not both.<br/>
 SELECT LTRIM(' padded ');<br/>
 
@@ -412,6 +424,7 @@ FROM customer;<br/>
 
 
 **LPAD**<br/>
+
 SELECT LPAD('padded', 10, '#');<br/>
 Returns: ####padded<br/>
 Note: Returns a character length of 10 and fills blanks space with the # symbol.<br/>
@@ -453,7 +466,8 @@ TIMEOFDAY<br/>
 CURRENT_TIME<br/>
 CURRENT_DATE<br/>
 
-**EXTRACT()** - Obtain a sub-component of a date value (year, month, day, week, or quarter)<br/>
+**EXTRACT()** 
+- Obtain a sub-component of a date value (year, month, day, week, or quarter)<br/>
 Example syntax:<br/>
 EXTRACT(YEAR FROM date_col)<br/>
 
@@ -514,6 +528,7 @@ CREATE TABLE table_name (<br/>
 # STORED PROCEDURES
 A stored procedure is a prepared SQL code that you can save, so the code can be reused over and over again.You can also pass parameters in stored procedurs<br/>
 Example query:<br/>
+
 CREATE PROCEDURE SelectAllCustomers @City nvarchar(30)<br/>
 AS<br/>
 SELECT * FROM Customers WHERE City = @City<br/>
@@ -523,6 +538,7 @@ GO;<br/>
 In SQL, a view is a virtual table based on the result-set of an SQL statement.<br/>
 
 Example query:<br/>
+
 CREATE VIEW customer_info AS<br/>
 SELECT first_name,last_name,address FROM customer<br/>
 INNER JOIN address<br/>
@@ -537,6 +553,7 @@ A window function performs a calculation across a set of table rows that are som
 To narrow the window from the entire dataset to individual groups within the dataset, you can use PARTITION BY<br/>
 
 Example query:<br/>
+
 SELECT DISTINCT session_category,<br/>
        AVG(session_ending - session_starting) OVER (PARTITION BY session_category) AS session_duration<br/>
 FROM sessions_data<br/>
@@ -544,6 +561,7 @@ FROM sessions_data<br/>
 **Ranking Window functions in SQL**
 The ROW_NUMBER() function is the simplest of the ranking window functions in SQL. It assigns consecutive numbers starting from 1 to all rows in the table<br/>
 Example query:<br/>
+
 SELECT sender_email, <br/>
        COUNT(*) as email_count, <br/>
        ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC, sender_email ASC) AS row_num<br/>
@@ -552,6 +570,7 @@ GROUP BY sender_email;<br/>
 
 The RANK() function assigns ranking values to the rows according to the specified ordering.<br/>
 Example query:<br/>
+
 SELECT student,percentage,<br/>
 RANK() OVER (ORDER BY percentage DESC)<br/>
 FROM students<br/>
@@ -561,6 +580,7 @@ The DENSE_RANK() function is very similar to the RANK() function with one key di
 **LAG and LEAD**<br/>
 
 Example query:<br/>
+
 SELECT id,<br/>
 CASE WHEN id%2=1 THEN COALESCE(LEAD(STUDENT) OVER (ORDER BY ID),Student)<br/>
 ELSE LAG(STUDENT) OVER (ORDER BY ID) END student<br/>
