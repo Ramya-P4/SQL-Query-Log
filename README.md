@@ -2,11 +2,11 @@
 Listing my SQL skillset!
 
 # SQL Commonly used Data Types
-INT -  is used to store whole numbers
-VARCHAR, NVARCHAR - used to store variable length text values
-DATETIME - used to store the date and time
-DECIMAL, FLOAT - DECIMAL and FLOAT datatypes are used to work with decimal values such as 10.3
-BIT - to store whether something 'True' or 'False' 
+INT -  is used to store whole numbers<br/>
+VARCHAR, NVARCHAR - used to store variable length text values<br/>
+DATETIME - used to store the date and time<br/>
+DECIMAL, FLOAT - DECIMAL and FLOAT datatypes are used to work with decimal values such as 10.3<br/>
+BIT - to store whether something 'True' or 'False' <br/>
 
 # Aggregate Functions
 AVG() - returns the average of a set of values<br/>
@@ -193,6 +193,13 @@ Modifies the data in the database. The TRUNCATE command helps us delete the comp
 
 TRUNCATE TABLE table_name.<br/>
 
+# WHERE
+The WHERE function specifies conditions on columns for the rows to be returned.<br/>
+
+SELECT column1, column2<br/>
+FROM table<br/>
+WHERE conditions (ex: name='David')
+
 # GROUP BY
 Aggregates columns per category.
 
@@ -260,7 +267,7 @@ OR payment.payment_id IS null
 
 **RIGHT OUTER JOIN** The same as LEFT OUTER JOIN but reversed
 
-**UNION and UNION ALL** The UNION operator is used to combine the result-set of two or more SELECT stateme.To allow duplicate values use UNION ALL<br/>
+**UNION and UNION ALL** The UNION operator is used to combine the result-set of two or more SELECT statements.To allow duplicate values use UNION ALL<br/>
 Essentially concatenates two results together.
 
 Example syntax:<br/>
@@ -383,8 +390,8 @@ SELECT SUBSTRING(address FROM POSITION(' ' IN address)+1 FOR LENGTH(address))<br
 FROM address;
 
 **TRIM**<br/>
-Removes characters from the start, middle or end of a string.<br/>
-TRIM([leading | trailing  | both] [characters] FROM string)
+The TRIM() function removes the space character OR other specified characters from the start or end of a string..<br/>
+TRIM([characters] FROM string)
 
 SELECT TRIM(' padded ');<br/>
 Removes all whitespace from the beginning and end of a string.
@@ -397,18 +404,17 @@ SELECT RTRIM(' padded ');
 
 Example:<br/>
 SELECT<br/>
-RPAD(first_name, LENGTH(first_name)+1)<br/>
-|| RPAD(last_name, LENGTH(last_name)+2, ' <') <br/>
-|| RPAD(email, LENGTH(email)+1, '>') AS full_email<br/>
-FROM customer;
+    RPAD(first_name, LENGTH(first_name) + 1, ' ')<br/>
+    || RPAD(last_name, LENGTH(last_name) + 2, ' ')<br/>
+    || RPAD(email, LENGTH(email) + 1, '') AS full_email<br/>
+FROM customer;<br/>
+
 
 **LPAD**<br/>
 SELECT LPAD('padded', 10, '#');<br/>
 Returns: ####padded<br/>
 Note: Returns a character length of 10 and fills blanks space with the # symbol.
 
-# STRING_AGG<br/>
-STRING_AGG(column, separator) takes all the values of a column and concatenates them, with separator in between each value
 
 # SubQuery
 
@@ -432,16 +438,6 @@ WHERE EXISTS<br/>
 (SELECT * FROM payment AS p<br/>
 WHERE p.customer_id = c.customer_id<br/>
 AND amount > 11)
-
-# Text Search
-
-**to_tsvector and tsquery**<br/>
-SELECT to_tsvector(description)<br/>
-FROM film;
-
-SELECT title, description<br/>
-FROM film<br/>
-WHERE to_tsvector(title) @@ to_tsquery('elf');
 
 # TIMESTAMPS and EXTRACT
 
@@ -505,21 +501,25 @@ RETURNING account_id,last_login
 # User Defined Data Types
 
 **ENUM**<br/>
-Enumerated data types are great options to use in your database when you have a column where you want to store a fixed list of values that rarely change. Examples include the directions on a compass (i.e., north, south, east and west).
+An ENUM is a string object whose value is decided from a set of permitted literals(Values) that are explicitly defined at the time of column creation.
+Examples include the directions on a compass (i.e., north, south, east and west).
 
-CREATE TYPE compass_position AS ENUM (<br/>
-'north',<br/>
-'south',<br/>
-'east',<br/>
-'west');
+CREATE TABLE table_name (<br/>
+  col...<br/>
+  col ENUM ('value_1','value_2','value_3', ....),<br/>
+  col...<br/>
+);<br/>
 
-Query this as:<br/>
-SELECT * <br/>
-FROM pg_type<br/>
-WHERE typname='compass_position';
+# STORED PROCEDURES
+A stored procedure is a prepared SQL code that you can save, so the code can be reused over and over again.You can also pass parameters in stored procedurs<br/>
+Example query:<br/>
+CREATE PROCEDURE SelectAllCustomers @City nvarchar(30)
+AS
+SELECT * FROM Customers WHERE City = @City
+GO;
 
 # VIEW
-Stores a specific query
+In SQL, a view is a virtual table based on the result-set of an SQL statement.<br/>
 
 Example query:<br/>
 CREATE VIEW customer_info AS<br/>
@@ -530,109 +530,37 @@ ON customer.address_id = address.address_id
 When you want to use this VIEW, you would simply input:<br/>
 SELECT * FROM customer_info
 
-To modify the VIEW, input CREATE OR REPLACE VIEW at the beginning of the query and then make the needed adjustments to the VIEW syntax
-
-# WHERE
-The WHERE function specifies conditions on columns for the rows to be returned.
-
-SELECT column1, column2<br/>
-FROM table<br/>
-WHERE conditions (ex: name='David')
-
 # Window Functions
 
-**FIRST_VALUE(column)**<br/>
-Returns the first value in the table or partition.
+A window function performs a calculation across a set of table rows that are somehow related to the current row. <br/>
+To narrow the window from the entire dataset to individual groups within the dataset, you can use PARTITION BY<br/>
 
-**LAST_VALUE(column)**<br/>
-Returns the last value in the table or partition.
+Example query:<br/>
+SELECT DISTINCT session_category,<br/>
+       AVG(session_ending - session_starting) OVER (PARTITION BY session_category) AS session_duration<br/>
+FROM sessions_data<br/>
 
-Example Syntax for FIRST_VALUE and LAST_VALUE:<br/>
-SELECT year, city<br/>
-FIRST_VALUE(city) OVER(ORDER BY year ASC) AS first_city,<br/>
-LAST_VALUE(city) OVER(ORDER BY year ASC<br/>
-RANGE BETWEEN<br/>
-UNBOUNDED PRECEEDING AND<br/>
-UNBOUNDED FOLLOWING)<br/>
-AS last_city<br/>
-FROM hosts<br/>
-ORDER BY year ASC;
+**Ranking Window functions in SQL**
+The ROW_NUMBER() function is the simplest of the ranking window functions in SQL. It assigns consecutive numbers starting from 1 to all rows in the table<br/>
+Example query:<br/>
+SELECT sender_email, <br/>
+       COUNT(*) as email_count, <br/>
+       ROW_NUMBER() OVER (ORDER BY COUNT(*) DESC, sender_email ASC) AS row_num<br/>
+FROM user_emails <br/>
+GROUP BY sender_email;<br/>
 
+The RANK() function assigns ranking values to the rows according to the specified ordering.<br/>
+Example query:<br/>
+SELECT student,percentage,
+RANK() OVER (ORDER BY percentage DESC)
+FROM students
 
-**ROW_NUMBER()**<br/>
+The DENSE_RANK() function is very similar to the RANK() function with one key difference - if there are ties in the data and two rows are assigned the same ranking value, the DENSE_RANK() will not skip any numbers and will assign the consecutive value to the next row. 
 
-SELECT col_name,<br/>
-    ROW_NUMBER() OVER() AS alias<br/>
-FROM table_name<br/>
-ORDER BY alias;
+**LAG and LEAD**
+Example query:<br/>
+SELECT id,
+CASE WHEN id%2=1 THEN COALESCE(LEAD(STUDENT) OVER (ORDER BY ID),Student)
+ELSE LAG(STUDENT) OVER (ORDER BY ID) END student
+FROM seat;
 
-**LAG**<br/>
-Returns column's value at the row n rows before the current row.
-
-SELECT column1, column2<br/>
-LAG(column2, 1) OVER (ORDER BY column1 ASC)<br/>
-FROM table<br/>
-ORDER BY column1 ASC;
-
-**LEAD**<br/>
-Returns column's value at the row n rows after the current row.
-
-WITH hosts AS (<br/>
-SELECT DISTINCT year, city<br/>
-FROM summer_medals)<br/>
-
-SELECT year, city,<br/>
-LEAD(city, 1) OVER (ORDER BY year ASC) AS next_city<br/>
-LEAD(city, 2) OVER (ORDER BY year ASC) AS after_next_city<br/>
-FROM hosts<br/>
-ORDER BY year ASC;
-
-**NTILE(n)**<br/>
-Splites the data into n approximately equal pages.
-
-WITH disciplines AS (<br/>
-SELECT DISTINCT discipline<br/>
-FROM summer_medals)
-
-SELECT discipline, NTILE(15) OVER () AS page<br/>
-FROM disciplines<br/>
-ORDER BY page ASC;
-
-WITH Athlete_Medals AS (<br/>
-  SELECT Athlete, COUNT(*) AS Medals<br/>
-  FROM Summer_Medals<br/>
-  GROUP BY Athlete<br/>
-  HAVING COUNT(*) > 1)<br/>
-  
-SELECT<br/>
-  Athlete,<b/r>
-  Medals,<br/>
-  NTILE(3) OVER() ORDERY BY medals AS Third<br/>
-FROM Athlete_Medals<br/>
-ORDER BY Medals DESC, Athlete ASC;
-
-**PARTITION BY**<br/>
-Splits the table into partitions based on a column's unique values
-
-SELECT column1, column2, column3,<br/>
-LAG(column3) OVER (PARTITION BY column2<br/>
-ORDER BY column2 ASC, column1 ASC)<br/>
-FROM table_name<br/>
-ORDER BY column2 ASC, column1, ASC<br/>
-
-**ROW_NUMBER()**<br/>
-Assigns unique numbers to rows, regardless of duplicates.
-
-**RANK()**<br/>
-Assigns the same number to rows with identical values, skipping over the next numbers in such cases.
-
-**DENSE_RANK()**<br/>
-Also assigns the same number to rows with indetical values, but doesn't skip over the next numbers.
-
-Example syntax for ROW_NUMBER, RANK and DENSE_RANK:<br/>
-SELECT country, games,<br/>
-ROW_NUMBER() OVER (ORDER BY games DESC) AS row_n,<br/>
-RANK() OVER (ORDER BY games DESC) AS rank_n,<br/>
-DENSE_RANK() OVER (ORDER BY games DESC) AS dense_rank_n<br/>
-FROM table<br/>
-ORDER BY games DESC, country ASC;
