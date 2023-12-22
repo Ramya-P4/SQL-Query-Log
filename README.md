@@ -161,7 +161,8 @@ CREATE TABLE account(<br/>
 **INDENTITY** - typical for the primary key to create an auto-incrementing numeric column in database systems like  MS SQL.
 
 # DELETE
-Removes rows from a table
+deletes existing records from the table in the database.<br/>
+It can delete one or more rows from the table depending on the condition given with the WHERE clause. <br/>
 
 Syntax:<br/>
 DELETE FROM table<br/>
@@ -178,40 +179,19 @@ DELETE FROM table
 
 # DROP
 Removes a column in a table along with its indexes and constraints.<br/>
-Does not remove columns used in views, triggers, or stored procedures without the CASCADE clause.
 
 General syntax:<br/>
 ALTER TABLE table_name<br/>
-DROP COLUMN col_name
-
-(Insert CASCADE at the very end to remove all dependencies)
+DROP COLUMN col_name<br/>
 
 Check for existence to avoid error:<br/>
 ALTER TABLE table_name<br/>
-DROP COLUMN IF EXISTS col_name
+DROP COLUMN IF EXISTS col_name<br/>
 
-(Can drop multiple columns as well)
+# TRUNCATE
+Modifies the data in the database. The TRUNCATE command helps us delete the complete records from an existing table in the database.<br/>
 
-# FRAMES
-
-**ROWS BETWEEN**<br/>
-ROWS BETWEEN [START] AND [FINISH]
-
-**n PRECEDING:** n rows before the current row
-
-**CURRENT ROW:** the current row
-
-**n FOLLOWING:** n rows after the current row
-
-Examples:<br/>
-ROWS BETWEEN 3 PRECEDING AND CURRENT ROW<br/>
-ROWS BETWEEN 1 PRECEDING AND 1 FOLLOWING<br/>
-ROWS BETWEEN 5 PRECEDING AND 1 PRECEDING
-
-**RANGE BETWEEN**:<br/>
-RANGE BETWEEN [START] AND [FINISH]<br/>
-Similar to ROWS BETWEEN<br/>
-RANGE treats duplicates in OVER's ORDER BY subclause as a single entity
+TRUNCATE TABLE table_name.<br/>
 
 # GROUP BY
 Aggregates columns per category.
@@ -254,20 +234,20 @@ WHERE condition;
 Note: SERIAL columns do not need to be provided a value
 
 # JOINS (INNER/OUTER/LEFT/RIGHT) | AS Statement | UNION
-JOINS combine information from multiple tables
+A JOIN clause is used to combine rows from two or more tables, based on a related column between them.
 
 **AS** creates an "alias" for a column or result<br/>
 Example syntax:<br/>
 SELECT SUM(column) AS new_name<br/>
 FROM table
 
-**INNER JOIN** returns results that match two different tables<br/>
+**INNER JOIN** keyword selects records that have matching values in both tables<br/>
 Examples syntax:<br/>
 SELECT * FROM TableA<br/>
 INNER JOIN TableB<br/>
 ON TableA.col_match = TableB.col_match
 
-**FULL OUTER JOIN** Combines unique values from two different tables<br/>
+**FULL OUTER JOIN** all records when there is a match in left or right  table records.<br/>
 Example syntax:<br/>
 SELECT * FROM customer<br/>
 FULL OUTER JOIN payment<br/>
@@ -275,12 +255,12 @@ ON customer.customer_id = payment.customer_id<br/>
 WHERE customer.customer_id IS null<br/>
 OR payment.payment_id IS null
 
-**LEFT OUTER JOIN** Returns set of records that are in the left table AND in both tables. If there is no match with the right table, the results are null<br/>
+**LEFT OUTER JOIN**returns all records from the left table , and the matching records from the right table. The result is 0 records from the right side, if there is no match.<br/>
 (Order does matter!)
 
 **RIGHT OUTER JOIN** The same as LEFT OUTER JOIN but reversed
 
-**UNION** Combines the results of tow or more SELECT statements.<br/>
+**UNION and UNION ALL** The UNION operator is used to combine the result-set of two or more SELECT stateme.To allow duplicate values use UNION ALL<br/>
 Essentially concatenates two results together.
 
 Example syntax:<br/>
@@ -295,20 +275,23 @@ Performs pattern matching against string data with the use of **wildcard** chara
 _ - matches any single character
 
 LIKE is case-sensitive<br/>
-ILIKE is not
-
 Example syntax:<br/>
 SELECT * FROM customer<br/>
-WHERE first_name ILIKE 'J%' AND last_name LIKE '%her%'
+WHERE first_name LIKE 'J%' AND last_name LIKE '%her%'
 
-# LIMIT
+# LIMIT and TOP 
 Limits the number of rows returned for a query.<br/>
-Goes at the very end of a query
+LIMIT Goes at the very end of a query in database systems like MySQL.TOP is used in MS SQL server and goes at the beginning of the query <br/>
 
 SELECT column<br/>
 FROM table<br/>
 ORDER BY column DESC<br/>
-LIMIT 5
+LIMIT 5 <br/>
+
+SELECT TOP 5 column<br/>
+FROM table<br/>
+ORDER BY column DESC<br/>
+
 
 # Logical Operators
 Combine multiple comparison operators
@@ -316,17 +299,6 @@ Combine multiple comparison operators
 AND<br/>
 OR<br/>
 NOT<br/>
-
-# NULLIF
-Takes 2 inputs and returns NULL if both are equal. Otherwise it returns the first argument passed.<br/>
-- Useful in cases where a NULL value would cause an error or unwanted result
-
-Example:<br/>
-NULLIF(10,10)<br/>
-- Returns NULL
-
-NULLIF(10,12)<br/>
-- Returns 10
 
 # ORDER BY
 Sorts rows based on a column value, in ascending or descending order.
@@ -347,29 +319,6 @@ Reverses the order of a string.
 SELECT title, REVERSE(title)<br/> 
 FROM film AS f
 
-# ROLLUP and CUBE
-
-**ROLLUP**
-GROUP BY subclause that includes extra rows for group-level aggregations.
-
-Example syntax:<br/>
-SELECT country, medal, COUNT(*) AS awards<br/>
-FROM summer_medals<br/>
-WHERE year = 2008 AND country IN ('CHN', 'RUS')<br/>
-GROUP BY country, ROLLUP(country, medal)<br/>
-ORDER BY country ASC, medal ASC;
-
-GROUP BY COUNTRY, ROLLUP(medal) will count all country- and medal- level totals, then count only country- level totals and fill in medal with nulls for these rows.<br/>
-ROLLUP is hierarchical, de-aggregating from the leftmost provided column to the right-most<br/>
-ROLLUP(country, medal) includes country- level totals<br/?
-ROLLUP(medal, country) includes medal-level totals
-
-**CUBE**<br/>
-CUBE is a non-hierarchical ROLLUP<br/>
-It generates all possible group-level aggregations
-
-CUBE(country,medal) counts country-level, medal-level, and grand totals
-
 # SELF-JOIN
 
 A query in which a table is joined to itself.<br/>
@@ -381,12 +330,6 @@ SELECT tableA.col, tableB.col<br/>
 FROM table AS tableA<br/>
 JOIN table AS tableB ON<br/>
 tableA.some_col = tableB.other_col
-
-SELECT f1.title, f2.title, f1.length<br/>
-FROM film AS f1<br/>
-INNER JOIN film AS f2 ON<br/>
-f1.film_id = f2.film_id<br/>
-AND f1.length = f2.length
 
 # String Functions and Operators<br/>
 Edits, combines and alters text data columns
